@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -8,6 +9,13 @@ import 'core/utils/routes.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  
+  // Set the status bar style to ensure icons (battery, signal) are visible
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+    statusBarColor: Colors.transparent, // Transparent status bar
+    statusBarIconBrightness: Brightness.dark, // For light backgrounds
+    statusBarBrightness: Brightness.light, // For iOS
+  ));
   
   try {
     // Initializing Firebase (Requires valid configuration generated via flutterfire configure)
@@ -33,6 +41,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         title: 'Expense Tracker',
+        debugShowCheckedModeBanner: false,
         theme: AppTheme.lightTheme,
         navigatorKey: NavigationService.navigatorKey,
         initialRoute: AppRoutes.onboarding,
