@@ -6,6 +6,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'core/theme/app_theme.dart';
 import 'core/utils/navigation_service.dart';
 import 'core/utils/routes.dart';
+import 'firebase_options.dart';
+import 'controllers/auth_controller.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,11 +20,11 @@ void main() async {
   ));
   
   try {
-    // Initializing Firebase (Requires valid configuration generated via flutterfire configure)
-    await Firebase.initializeApp();
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
   } catch (e) {
     debugPrint('Firebase initialization error: $e');
-    // Note: It's expected to throw an error initially until `flutterfire configure` is run.
   }
 
   runApp(const MyApp());
@@ -35,16 +37,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        // Initialize your providers here, e.g.,
-        // ChangeNotifierProvider(create: (_) => ThemeProvider()),
-        Provider<String>(create: (_) => 'DummyProvider'),
+        ChangeNotifierProvider(create: (_) => AuthController()),
       ],
       child: MaterialApp(
         title: 'Expense Tracker',
         debugShowCheckedModeBanner: false,
         theme: AppTheme.lightTheme,
         navigatorKey: NavigationService.navigatorKey,
-        initialRoute: AppRoutes.onboarding,
+        initialRoute: AppRoutes.splash,
         routes: AppRoutes.routes,
       ),
     );

@@ -1,4 +1,4 @@
-package com.example.exp_tracker
+package com.example.firebaseauthdemoapp
 
 import io.flutter.embedding.android.FlutterActivity
 
