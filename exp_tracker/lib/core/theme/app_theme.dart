@@ -6,7 +6,6 @@ class AppTheme {
 
   static ThemeData get lightTheme {
     return ThemeData(
-      primaryColor: AppColors.primary,
       scaffoldBackgroundColor: AppColors.background,
       colorScheme: const ColorScheme.light(
         primary: AppColors.primary,
@@ -15,7 +14,7 @@ class AppTheme {
         error: AppColors.error,
       ),
       appBarTheme: const AppBarTheme(
-        color: AppColors.primary,
+        backgroundColor: AppColors.primary,
         elevation: 0,
         centerTitle: true,
         iconTheme: IconThemeData(color: Colors.white),

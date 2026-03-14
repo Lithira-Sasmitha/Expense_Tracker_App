@@ -21,7 +21,7 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
         title: 'Expense Tracker',
         theme: AppTheme.lightTheme,
         navigatorKey: NavigationService.navigatorKey,
-        initialRoute: AppRoutes.home,
+        initialRoute: AppRoutes.onboarding,
         routes: AppRoutes.routes,
       ),
     );
