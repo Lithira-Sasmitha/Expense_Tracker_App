@@ -13,38 +13,32 @@ import '../../features/profile/presentation/pages/profile_page.dart';
 class AppRouter {
   AppRouter._();
 
-  static const String splash = '/splash';
+  static const String splash = '/';
   static const String onboarding = '/onboarding';
   static const String login = '/login';
   static const String register = '/register';
-  static const String home = '/';
+  static const String home = '/home';
   static const String add = '/add';
   static const String report = '/report';
   static const String profile = '/profile';
 
   static final rootNavigatorKey = GlobalKey<NavigatorState>();
-  
+
   static final router = GoRouter(
     navigatorKey: rootNavigatorKey,
     initialLocation: splash,
     routes: [
-      GoRoute(
-        path: splash,
-        builder: (context, state) => const SplashScreen(),
-      ),
+      GoRoute(path: splash, builder: (context, state) => const SplashScreen()),
       GoRoute(
         path: onboarding,
         builder: (context, state) => const OnboardingScreen(),
       ),
-      GoRoute(
-        path: login,
-        builder: (context, state) => const LoginScreen(),
-      ),
+      GoRoute(path: login, builder: (context, state) => const LoginScreen()),
       GoRoute(
         path: register,
         builder: (context, state) => const RegisterScreen(),
       ),
-      
+
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
           return MainShell(navigationShell: navigationShell);
@@ -60,10 +54,7 @@ class AppRouter {
           ),
           StatefulShellBranch(
             routes: [
-              GoRoute(
-                path: add,
-                builder: (context, state) => const AddPage(),
-              ),
+              GoRoute(path: add, builder: (context, state) => const AddPage()),
             ],
           ),
           StatefulShellBranch(
