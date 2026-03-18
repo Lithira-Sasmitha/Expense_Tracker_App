@@ -3,8 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
 
+import 'core/navigation/app_router.dart';
 import 'core/theme/app_theme.dart';
-import 'core/utils/routes.dart';
 import 'firebase_options.dart';
 import 'injection_container.dart' as di;
 import 'features/auth/presentation/bloc/auth_bloc.dart';
@@ -44,12 +44,13 @@ class MyApp extends StatelessWidget {
           create: (_) => di.sl<AuthBloc>()..add(CheckAuthStatusEvent()),
         ),
       ],
-      child: MaterialApp(
+      child: MaterialApp.router(
         title: 'Expense Tracker',
         debugShowCheckedModeBanner: false,
         theme: AppTheme.lightTheme,
-        initialRoute: AppRoutes.splash,
-        routes: AppRoutes.routes,
+        darkTheme: AppTheme.darkTheme,
+        themeMode: ThemeMode.system,
+        routerConfig: AppRouter.router,
       ),
     );
   }
