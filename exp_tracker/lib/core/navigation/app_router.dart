@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../features/auth/presentation/bloc/auth_bloc.dart';
+import '../../features/auth/presentation/bloc/auth_state.dart';
 import 'main_shell.dart';
-import '../../features/splash/presentation/pages/splash_screen.dart';
 import '../../features/auth/presentation/pages/login_screen.dart';
 import '../../features/auth/presentation/pages/register_screen.dart';
 import '../../features/onboarding/presentation/pages/onboarding_screen.dart';
@@ -13,11 +15,10 @@ import '../../features/profile/presentation/pages/profile_page.dart';
 class AppRouter {
   AppRouter._();
 
-  static const String splash = '/';
   static const String onboarding = '/onboarding';
   static const String login = '/login';
   static const String register = '/register';
-  static const String home = '/home';
+  static const String home = '/';
   static const String add = '/add';
   static const String report = '/report';
   static const String profile = '/profile';
@@ -26,9 +27,23 @@ class AppRouter {
 
   static final router = GoRouter(
     navigatorKey: rootNavigatorKey,
-    initialLocation: splash,
+    initialLocation: home,
+    redirect: (context, state) {
+      final authState = context.read<AuthBloc>().state;
+      
+      final isLoggingIn = state.matchedLocation == login || state.matchedLocation == register || state.matchedLocation == onboarding;
+
+      if (authState is Unauthenticated) {
+        return isLoggingIn ? null : onboarding;
+      }
+
+      if (authState is Authenticated) {
+        return isLoggingIn ? home : null;
+      }
+
+      return null;
+    },
     routes: [
-      GoRoute(path: splash, builder: (context, state) => const SplashScreen()),
       GoRoute(
         path: onboarding,
         builder: (context, state) => const OnboardingScreen(),

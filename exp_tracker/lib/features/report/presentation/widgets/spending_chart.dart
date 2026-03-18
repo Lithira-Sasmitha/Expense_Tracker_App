@@ -70,7 +70,7 @@ class SpendingChart extends StatelessWidget {
           backDrawRodData: BackgroundBarChartRodData(
             show: true,
             toY: 20,
-            color: color.withValues(alpha: 0.1),
+            color: color.withOpacity(0.1),
           ),
         ),
       ],

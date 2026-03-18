@@ -30,7 +30,7 @@ class ProfilePage extends StatelessWidget {
                 children: [
                   CircleAvatar(
                     radius: 60,
-                    backgroundColor: AppColors.primary.withValues(alpha: 0.1),
+                    backgroundColor: AppColors.primary.withOpacity(0.1),
                     child: const Icon(Icons.person_rounded, color: AppColors.primary, size: 60),
                   ),
                   const SizedBox(height: 15),
@@ -168,7 +168,7 @@ class _SettingTile extends StatelessWidget {
         leading: Container(
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
-            color: (color ?? AppColors.primary).withValues(alpha: 0.1),
+            color: (color ?? AppColors.primary).withOpacity(0.1),
             borderRadius: BorderRadius.circular(10),
           ),
           child: Icon(icon, color: color ?? AppColors.primary, size: 22),

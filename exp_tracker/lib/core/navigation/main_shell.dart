@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../features/home/presentation/bloc/transaction_bloc.dart';
 import '../widgets/app_bottom_nav_bar.dart';
 import '../widgets/app_scaffold.dart';
 
@@ -27,5 +29,10 @@ class MainShell extends StatelessWidget {
       index,
       initialLocation: index == navigationShell.currentIndex,
     );
+
+    // Refresh transactions when switching to home branch
+    if (index == 0) {
+      context.read<TransactionBloc>().add(GetTransactionsEvent());
+    }
   }
 }

@@ -7,19 +7,24 @@ import 'core/navigation/app_router.dart';
 import 'core/theme/app_theme.dart';
 import 'firebase_options.dart';
 import 'injection_container.dart' as di;
+
+// blocs
 import 'features/auth/presentation/bloc/auth_bloc.dart';
 import 'features/auth/presentation/bloc/auth_event.dart';
+import 'features/home/presentation/bloc/transaction_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
-  // Set the status bar style to ensure icons (battery, signal) are visible
-  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-    statusBarColor: Colors.transparent, // Transparent status bar
-    statusBarIconBrightness: Brightness.dark, // For light backgrounds
-    statusBarBrightness: Brightness.light, // For iOS
-  ));
-  
+
+  // Status bar settings
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.dark,
+      statusBarBrightness: Brightness.light,
+    ),
+  );
+
   try {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
@@ -28,6 +33,7 @@ void main() async {
     debugPrint('Firebase initialization error: $e');
   }
 
+  // Initialize Dependency Injection
   await di.init();
 
   runApp(const MyApp());
@@ -40,9 +46,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        /// 🔐 Auth Bloc
         BlocProvider<AuthBloc>(
           create: (_) => di.sl<AuthBloc>()..add(CheckAuthStatusEvent()),
         ),
+
+        /// 💰 Transaction Bloc (🔥 FIXED)
+        BlocProvider<TransactionBloc>(create: (_) => di.sl<TransactionBloc>()),
       ],
       child: MaterialApp.router(
         title: 'Expense Tracker',

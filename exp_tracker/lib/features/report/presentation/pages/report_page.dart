@@ -109,7 +109,7 @@ class _CategoryItem extends StatelessWidget {
                 height: 8,
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color: isDarkMode ? AppColors.surfaceDark : Colors.grey.withValues(alpha: 0.1),
+                  color: isDarkMode ? AppColors.surfaceDark : Colors.grey.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(4),
                 ),
               ),

@@ -29,7 +29,7 @@ class TransactionTile extends StatelessWidget {
             width: 50,
             decoration: BoxDecoration(
               color: (transaction.type == TransactionType.income 
-                  ? Colors.green : Colors.red).withValues(alpha: 0.1),
+                  ? Colors.green : Colors.red).withOpacity(0.1),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Icon(

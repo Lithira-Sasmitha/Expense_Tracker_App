@@ -27,15 +27,15 @@ class BalanceCard extends StatelessWidget {
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: isDarkMode 
-                ? [AppColors.primary, AppColors.primary.withValues(alpha: 0.8)]
-                : [AppColors.primary, AppColors.primary.withValues(alpha: 0.9)],
+                ? [AppColors.primary, AppColors.primary.withOpacity(0.8)]
+                : [AppColors.primary, AppColors.primary.withOpacity(0.9)],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
           borderRadius: BorderRadius.circular(25),
           boxShadow: [
             BoxShadow(
-              color: AppColors.primary.withValues(alpha: 0.3),
+              color: AppColors.primary.withOpacity(0.3),
               offset: const Offset(0, 10),
               blurRadius: 20,
             ),
@@ -101,7 +101,7 @@ class _StatItem extends StatelessWidget {
         Container(
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: 0.2),
+            color: Colors.white.withOpacity(0.2),
             shape: BoxShape.circle,
           ),
           child: Icon(icon, color: color, size: 20),
