@@ -48,7 +48,13 @@ class _AddPageState extends State<AddPage> {
 
     if (amountText.isEmpty || title.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please fill in all fields')),
+        SnackBar(
+          content: const AppText('Please fill in all fields', color: Colors.white),
+          backgroundColor: AppColors.error,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          margin: const EdgeInsets.all(20),
+        ),
       );
       return;
     }
@@ -56,9 +62,15 @@ class _AddPageState extends State<AddPage> {
     final amount = double.tryParse(amountText);
 
     if (amount == null) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('Invalid amount')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const AppText('Please enter a valid amount', color: Colors.white),
+          backgroundColor: AppColors.error,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          margin: const EdgeInsets.all(20),
+        ),
+      );
       return;
     }
 
@@ -94,8 +106,32 @@ class _AddPageState extends State<AddPage> {
           });
 
           // Show success snackbar
+          final bool isIncome = _selectedType == 'Income';
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Transaction saved!')),
+            SnackBar(
+              content: Row(
+                children: [
+                   Icon(
+                    isIncome ? Icons.check_circle_rounded : Icons.remove_circle_rounded, 
+                    color: Colors.white,
+                    size: 20,
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: AppText(
+                      '${isIncome ? "Income" : "Expense"} added successfully!',
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
+              ),
+              backgroundColor: isIncome ? AppColors.income : AppColors.expense,
+              behavior: SnackBarBehavior.floating,
+              duration: const Duration(seconds: 2),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+              margin: const EdgeInsets.all(20),
+            ),
           );
 
           // Navigate to home tab using GoRouter (AddPage is a tab, not a pushed route)
@@ -107,9 +143,15 @@ class _AddPageState extends State<AddPage> {
         if (state is TransactionError) {
           if (!mounted) return;
 
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(SnackBar(content: Text(state.message)));
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: AppText(state.message, color: Colors.white),
+              backgroundColor: AppColors.error,
+              behavior: SnackBarBehavior.floating,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              margin: const EdgeInsets.all(20),
+            ),
+          );
         }
       },
 

@@ -61,8 +61,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return AppScaffold(
-      backgroundColor: Colors.white,
       safeArea: false, // Handle safe area manually for better control
       body: SafeArea(
         child: Column(
@@ -134,7 +135,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                     height: 200,
                                     width: 200,
                                     decoration: BoxDecoration(
-                                      color: Colors.grey[100],
+                                      color: isDarkMode ? AppColors.surfaceDark : Colors.grey[100],
                                       borderRadius: BorderRadius.circular(20),
                                     ),
                                     child: const Icon(Icons.image_not_supported_outlined, size: 40, color: Colors.grey),
@@ -149,14 +150,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           _pages[index].title,
                           fontSize: 26,
                           fontWeight: FontWeight.bold,
-                          color: AppColors.textHeaderLight,
+                          color: isDarkMode ? AppColors.textHeaderDark : AppColors.textHeaderLight,
                           textAlign: TextAlign.center,
                         ),
                         const SizedBox(height: 16),
                         AppText(
                           _pages[index].description,
                           fontSize: 16,
-                          color: AppColors.textBodyLight,
+                          color: isDarkMode ? AppColors.textBodyDark : AppColors.textBodyLight,
                           textAlign: TextAlign.center,
                         ),
                         const SizedBox(height: 20),

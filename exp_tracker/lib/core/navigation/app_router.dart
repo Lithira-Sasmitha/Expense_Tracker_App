@@ -11,6 +11,8 @@ import '../../features/home/presentation/pages/home_page.dart';
 import '../../features/add/presentation/pages/add_page.dart';
 import '../../features/report/presentation/pages/report_page.dart';
 import '../../features/profile/presentation/pages/profile_page.dart';
+import '../../features/profile/presentation/pages/profile_detail_page.dart';
+import '../../features/profile/presentation/pages/edit_profile_page.dart';
 
 class AppRouter {
   AppRouter._();
@@ -22,6 +24,8 @@ class AppRouter {
   static const String add = '/add';
   static const String report = '/report';
   static const String profile = '/profile';
+  static const String profileDetail = '/profile/detail';
+  static const String editProfile = '/profile/edit';
 
   static final rootNavigatorKey = GlobalKey<NavigatorState>();
 
@@ -85,6 +89,16 @@ class AppRouter {
               GoRoute(
                 path: profile,
                 builder: (context, state) => const ProfilePage(),
+                routes: [
+                  GoRoute(
+                    path: 'detail',
+                    builder: (context, state) => const ProfileDetailPage(),
+                  ),
+                  GoRoute(
+                    path: 'edit',
+                    builder: (context, state) => const EditProfilePage(),
+                  ),
+                ],
               ),
             ],
           ),

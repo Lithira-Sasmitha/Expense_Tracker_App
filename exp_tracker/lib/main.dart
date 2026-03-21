@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 
 import 'core/navigation/app_router.dart';
 import 'core/theme/app_theme.dart';
+import 'core/theme/theme_cubit.dart';
 import 'firebase_options.dart';
 import 'injection_container.dart' as di;
 
@@ -46,22 +47,31 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        /// 🎨 Theme Cubit
+        BlocProvider<ThemeCubit>(
+          create: (_) => ThemeCubit(),
+        ),
+
         /// 🔐 Auth Bloc
         BlocProvider<AuthBloc>(
           create: (_) => di.sl<AuthBloc>()..add(CheckAuthStatusEvent()),
         ),
 
-        /// 💰 Transaction Bloc (🔥 FIXED)
         BlocProvider<TransactionBloc>(create: (_) => di.sl<TransactionBloc>()),
       ],
-      child: MaterialApp.router(
-        title: 'Expense Tracker',
-        debugShowCheckedModeBanner: false,
-        theme: AppTheme.lightTheme,
-        darkTheme: AppTheme.darkTheme,
-        themeMode: ThemeMode.system,
-        routerConfig: AppRouter.router,
+      child: BlocBuilder<ThemeCubit, ThemeMode>(
+        builder: (context, themeMode) {
+          return MaterialApp.router(
+            title: 'Expense Tracker',
+            debugShowCheckedModeBanner: false,
+            theme: AppTheme.lightTheme,
+            darkTheme: AppTheme.darkTheme,
+            themeMode: themeMode,
+            routerConfig: AppRouter.router,
+          );
+        },
       ),
     );
   }
 }
+

@@ -45,8 +45,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return AppScaffold(
-      backgroundColor: Colors.white,
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is AuthError) {
@@ -71,20 +72,20 @@ class _LoginScreenState extends State<LoginScreen> {
                       height: 100,
                     ),
                     const SizedBox(height: 20),
-                    const Text(
+                    Text(
                       'Welcome Back',
                       style: TextStyle(
                         fontSize: 28,
                         fontWeight: FontWeight.bold,
-                        color: AppColors.textHeaderLight,
+                        color: isDarkMode ? AppColors.textHeaderDark : AppColors.textHeaderLight,
                       ),
                     ),
                     const SizedBox(height: 8),
-                    const Text(
+                    Text(
                       'Login to your account to continue',
                       style: TextStyle(
                         fontSize: 16,
-                        color: AppColors.textBodyLight,
+                        color: isDarkMode ? AppColors.textBodyDark : AppColors.textBodyLight,
                       ),
                     ),
                     const SizedBox(height: 40),

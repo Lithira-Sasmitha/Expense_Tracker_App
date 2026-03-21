@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import '../../../../core/navigation/app_router.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/widgets/app_scaffold.dart';
 import '../../../../core/widgets/app_text.dart';
@@ -118,10 +120,14 @@ class _HomePageState extends State<HomePage> {
                         );
                       },
                     ),
-                    CircleAvatar(
-                      radius: 25,
-                      backgroundColor: AppColors.primary.withOpacity(0.1),
-                      child: const Icon(Icons.person_rounded, color: AppColors.primary),
+                    InkWell(
+                      onTap: () => context.go(AppRouter.profile),
+                      borderRadius: BorderRadius.circular(25),
+                      child: CircleAvatar(
+                        radius: 25,
+                        backgroundColor: AppColors.primary.withOpacity(0.1),
+                        child: const Icon(Icons.person_rounded, color: AppColors.primary),
+                      ),
                     ),
                   ],
                 ),

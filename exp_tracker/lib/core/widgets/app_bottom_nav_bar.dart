@@ -37,6 +37,7 @@ class AppBottomNavBar extends StatelessWidget {
             label: 'Home',
             isSelected: currentIndex == 0,
             onTap: () => onTap(0),
+            isPrimary: true,
           ),
           _NavBarItem(
             icon: Icons.add_circle_rounded,
@@ -50,12 +51,14 @@ class AppBottomNavBar extends StatelessWidget {
             label: 'Report',
             isSelected: currentIndex == 2,
             onTap: () => onTap(2),
+            isPrimary: true,
           ),
           _NavBarItem(
             icon: Icons.person_rounded,
             label: 'Profile',
             isSelected: currentIndex == 3,
             onTap: () => onTap(3),
+            isPrimary: true,
           ),
         ],
       ),
@@ -87,8 +90,10 @@ class _NavBarItem extends StatelessWidget {
         duration: const Duration(milliseconds: 300),
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
-          color: isSelected 
-              ? (isPrimary ? AppColors.primary : AppColors.primary.withOpacity(0.1)) 
+          color: isSelected
+              ? (isPrimary
+                    ? AppColors.primary
+                    : AppColors.primary.withOpacity(0.1))
               : Colors.transparent,
           borderRadius: BorderRadius.circular(15),
         ),
@@ -96,8 +101,8 @@ class _NavBarItem extends StatelessWidget {
           children: [
             Icon(
               icon,
-              color: isSelected 
-                  ? (isPrimary ? Colors.white : AppColors.primary) 
+              color: isSelected
+                  ? (isPrimary ? Colors.white : AppColors.primary)
                   : AppColors.gray,
               size: 24,
             ),

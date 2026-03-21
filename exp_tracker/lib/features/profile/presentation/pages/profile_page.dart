@@ -2,19 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/theme_cubit.dart';
 import '../../../../core/widgets/app_scaffold.dart';
 import '../../../../core/widgets/app_text.dart';
 import '../../../../core/widgets/app_card.dart';
 import '../../../../core/navigation/app_router.dart';
 import '../../../auth/presentation/bloc/auth_bloc.dart';
 import '../../../auth/presentation/bloc/auth_event.dart';
+import '../../../auth/presentation/bloc/auth_state.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final themeCubit = context.watch<ThemeCubit>();
+    final isDarkMode = themeCubit.isDarkMode(context);
 
     return AppScaffold(
       body: SingleChildScrollView(
@@ -25,19 +28,26 @@ class ProfilePage extends StatelessWidget {
             const SizedBox(height: 40),
 
             // Profile info
-            Center(
-              child: Column(
-                children: [
-                  CircleAvatar(
-                    radius: 60,
-                    backgroundColor: AppColors.primary.withOpacity(0.1),
-                    child: const Icon(Icons.person_rounded, color: AppColors.primary, size: 60),
+            BlocBuilder<AuthBloc, AuthState>(
+              builder: (context, state) {
+                final String name = state is Authenticated ? (state.user.name ?? 'Guest User') : 'Guest User';
+                final String email = state is Authenticated ? state.user.email : 'No Email';
+                
+                return Center(
+                  child: Column(
+                    children: [
+                      CircleAvatar(
+                        radius: 60,
+                        backgroundColor: AppColors.primary.withOpacity(0.1),
+                        child: const Icon(Icons.person_rounded, color: AppColors.primary, size: 60),
+                      ),
+                      const SizedBox(height: 15),
+                      AppText(name, fontSize: 22, fontWeight: FontWeight.bold),
+                      AppText(email, fontSize: 14, color: AppColors.gray),
+                    ],
                   ),
-                  const SizedBox(height: 15),
-                  const AppText('Lithira Sasmitha', fontSize: 22, fontWeight: FontWeight.bold),
-                  const AppText('lithira@example.com', fontSize: 14, color: AppColors.gray),
-                ],
-              ),
+                );
+              },
             ),
             const SizedBox(height: 50),
 
@@ -46,7 +56,7 @@ class ProfilePage extends StatelessWidget {
             _SettingTile(
               icon: Icons.person_outline_rounded,
               title: 'Personal Info',
-              onTap: () {},
+              onTap: () => context.push(AppRouter.profileDetail),
             ),
             _SettingTile(
               icon: Icons.lock_outline_rounded,
@@ -63,7 +73,7 @@ class ProfilePage extends StatelessWidget {
               isSwitch: true,
               switchValue: isDarkMode,
               onToggle: (value) {
-                // TODO: Update theme preference
+                context.read<ThemeCubit>().toggleTheme();
               },
             ),
              _SettingTile(

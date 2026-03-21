@@ -16,7 +16,7 @@ abstract class AuthRemoteDataSource {
   });
 
   Future<void> logout();
-  
+  Future<UserModel> updateProfile({required String name});
   UserModel? getCurrentUser();
 }
 
@@ -94,6 +94,30 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     }
   }
   
+  @override
+  Future<UserModel> updateProfile({required String name}) async {
+    try {
+      final user = firebaseAuth.currentUser;
+      if (user != null) {
+        await user.updateDisplayName(name);
+        await user.reload();
+        final updatedUser = firebaseAuth.currentUser;
+        if (updatedUser != null) {
+          return UserModel.fromFirebaseUser(updatedUser);
+        }
+        throw ServerException('Failed to get updated user after profile update');
+      } else {
+        throw ServerException('No user is currently logged in');
+      }
+    } on FirebaseAuthException catch (e) {
+      debugPrint('Firebase Profile Update Error: ${e.code} - ${e.message}');
+      throw ServerException(e.message ?? 'Unknown Firebase Profile Update Error');
+    } catch (e) {
+      debugPrint('Unexpected Profile Update Error: $e');
+      throw ServerException('An unexpected error occurred during profile update');
+    }
+  }
+
   @override
   UserModel? getCurrentUser() {
     final user = firebaseAuth.currentUser;
